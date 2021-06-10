@@ -52,6 +52,15 @@ function new_venue() {
     add_venue();
 }
 
+function update_user() {
+    alert("Account updated successfully!");
+    update_user_details();
+}
+
+// function get_current_user() {
+//     get_user();
+// }
+
  function passwordStrength(password) {
 
       var rating = [

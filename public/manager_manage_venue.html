@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="stylesheets/sam.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/user_account.css">
+    <script src="javascripts/objects.js"></script>
+    <script src="javascripts/signup_validation.js"></script>
 
 
     <!-- Bootstrap 5-->
@@ -21,16 +23,14 @@
 
 
     <!-- Vue JS -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     <title>Manage venue (Manager)</title>
 </head>
 
 
 
-<body>
+<body id="app">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="manager_home.html">Covid Check Manager</a>
@@ -90,9 +90,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Uni Adelaide</td>
-                    <td>North Terrace 5000</td>
+                <tr v-for="v in venue">
+                    <td> {{ message }} </td>
+                    <td> {{ venue.address1 }} {{ venue.address2 }} {{ venue.suburb }} {{ venue.postcode }} </td>
                     <td style="color:green;">Safe</td>
                     <td>
                       <a style="color:black;" href="manager_manage_venue.html">Update</a>

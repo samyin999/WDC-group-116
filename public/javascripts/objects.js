@@ -62,6 +62,52 @@ function add_venue() {
     xhttp.send(JSON.stringify(venue));
 }
 
+var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello World!'
+        }
+});
+
+function update_user_details() {
+
+    var updated_user = [
+    {
+        first_name: document.getElementById('inputFirstname').value,
+        last_name: document.getElementById('inputLastname').value,
+        date_of_birth: document.getElementById('inputDoB').value,
+        email: document.getElementById('inputEmail4').value,
+        address1: document.getElementById('inputAddress').value,
+        address2: document.getElementById('inputAddress2').value,
+        suburb: document.getElementById('inputCity').value,
+        postcode: document.getElementById('inputZip').value
+    },
+];
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/update_user_details", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(updated_user));
+
+}
+
+function get_user() {
+
+    var xhttp = new XMLHttpRequest();
+
+    // Define function to run on response
+    // xmlhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         // Update the page on success
+    //         add_user();
+    //     }
+    // };
+
+    xhttp.open("GET", "/register_user", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(user));
+
+}
 
 // user check-in object
 

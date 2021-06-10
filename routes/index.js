@@ -51,6 +51,25 @@ router.post('/register_venue', function(req, res, next) {
 
 });
 
+/* POST update user */
+router.post('/update_user_details', function(req, res, next) {
+
+    if (req.body !== null) {
+          res.send(req.body);
+          res.end();
+    }
+    else {
+          res.sendStatus(400);
+    }
+
+});
+
+/* GET get user */
+router.get('/register_user', function(req, res, next) {
+
+        res.json(user);
+});
+
 
 
 module.exports = router;
