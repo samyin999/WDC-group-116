@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="stylesheets/sam.css">
+
+    <!-- Bootstrap 5-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 4-->
+    <!-- we need both because some of us used code from 4 and some of us used code from 5, was breaking some functionality-->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- Vue JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+    <!-- Javascripts -->
+    <script src=javascripts/manager.js></script>
+
+    <title>Home (Manager)</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" onclick="homePress()">Covid Check Manager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+
+                    <a class="nav-link active" id="logActive" style="display:none" aria-current="page">Check in log</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="logInactive" onclick="logPress()">Check in log</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+
+                    <a class="nav-link active" id="manageActive" style="display:none" aria-current="page">Manage
+                        venue</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="manageInactive" onclick="managePress()">Manage venue</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+
+                    <a class="nav-link active" id="accountActive" style="display:none" aria-current="page">My
+                        account</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="accountInactive" onclick="accountPress()">My account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.html">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="bread" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+    </nav>
+
+    <!-- Home Div -->
+    <div id="managerHome">
+        <!-- Covid figures -->
+        <div class="centeredBox">
+            <h3>Management account for</h3>
+            <p>Name of location</p>
+            <h3>Address</h3>
+            <p>Address</p>
+        </div>
+
+
+        <!-- Undecided -->
+        <div class="centeredBox">
+            <h3>Recent check-ins</h3>
+
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <td style="font-weight: 600;">Name</td>
+                        <td style="font-weight: 600;">Time</td>
+                        <td style="font-weight: 600;">Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+                    </tr>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+
+                    </tr>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+
+                    </tr>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+
+                    </tr>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+    <!-- Log Div -->
+    <div id="managerLog" style="display:none">
+
+        <div class="container light-style flex-grow-1 container-p-y">
+
+            <h3 style="text-align:center;">
+                Check-in History
+            </h3>
+
+
+            <table class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+                    </tr>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>Has covid</td>
+
+                    </tr>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+
+                    </tr>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+
+                    </tr>
+                    <tr>
+                        <td>Jon Snow</td>
+                        <td>Tue May 18 2021 22:02:45 GMT+0930</td>
+                        <td>No covid history</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Manage Div -->
+    <div id="managerManage" style="display:none">
+        <div class="container light-style flex-grow-1 container-p-y">
+
+            <h3 style="text-align:center;">
+                Manage Venue
+            </h3>
+
+
+            <table class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Venue name</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="v in venue">
+                        <td> {{ message }} </td>
+                        <td> {{ venue.address1 }} {{ venue.address2 }} {{ venue.suburb }} {{ venue.postcode }} </td>
+                        <td style="color:green;">Safe</td>
+                        <td>
+                            <a style="color:black;" href="manager_manage_venue.html">Update</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Restaurant</td>
+                        <td>240 Grote St Adelaide 5000</td>
+                        <td style="color:red">Hotspot</td>
+                        <td>
+                            <a style="color:black;" href="manager_manage_venue.html">Update</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cafe</td>
+                        <td>241 Rundle St 5000</td>
+                        <td style="color:green;">Safe</td>
+                        <td>
+                            <a style="color:black;" href="manager_manage_venue.html">Update</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right mt-3">
+                <button type="button" class="btn btn-primary"
+                    onclick="window.location.href='sign_up_venue.html';">Register new venue</button>&nbsp;
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Account Div -->
+    <div id="managerAccount" style="display:none">
+        <div class="container light-style flex-grow-1 container-p-y">
+
+            <h4 class="font-weight-bold py-3 mb-4">
+                Account settings
+            </h4>
+
+            <div class="card overflow-hidden">
+                <div class="row no-gutters row-bordered row-border-light">
+                    <div class="col-md-3 pt-0">
+                        <div class="list-group list-group-flush account-settings-links">
+                            <a class="list-group-item list-group-item-action active" data-toggle="list"
+                                href="#account-general">General</a>
+                            <a class="list-group-item list-group-item-action" data-toggle="list"
+                                href="#account-change-password">Change password</a>
+                            <a class="list-group-item" href="manager_manage_venue.html">Manage Venue</a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade active show" id="account-general">
+                                <div class="card-body">
+                                    <div class="col-md-6">
+                                        <label for="inputFirstname" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="inputFirstname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputLastname" class="form-label">Last name</label>
+                                        <input type="text" class="form-control" id="inputLastname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputDoB" class="form-label">Date of Birth</label>
+                                        <input type="text" class="form-control" id="inputDoB">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputPhone" class="form-label">Phone number</label>
+                                        <input type="text" class="form-control" id="inputPhone">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="inputEmail4">
+                                        <div class="alert alert-warning mt-3">
+                                            Your email is not confirmed. Please check your inbox.<br>
+                                            <a href="javascript:void(0)">Resend confirmation</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputAddress" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="inputAddress"
+                                            placeholder="1234 Main St">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputAddress2" class="form-label">Address 2</label>
+                                        <input type="text" class="form-control" id="inputAddress2"
+                                            placeholder="Apartment, studio, or floor">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputCity" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="inputCity">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="inputState" class="form-label">State</label>
+                                        <select id="inputState" class="form-select">
+                                            <option selected>Choose...</option>
+                                            <option>South Australia</option>
+                                            <option>New South Wales</option>
+                                            <option>Queensland</option>
+                                            <option>Tasmania</option>
+                                            <option>Victoria</option>
+                                            <option>Western Australia</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="inputZip" class="form-label">Postcode</label>
+                                        <input type="text" class="form-control" id="inputZip">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="account-change-password">
+                                <div class="card-body pb-2">
+
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">Current password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">New password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">Repeat new password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="sign-up-user">
+                                <!-- <div class="card-body pb-2">
+    
+                                    <div class="col-md-6">
+                                        <label for="inputFirstname" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="inputadminFirstname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputLastname" class="form-label">Last name</label>
+                                        <input type="text" class="form-control" id="inputadminLastname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputDoB" class="form-label">Date of Birth</label>
+                                        <input type="text" class="form-control" id="inputadminDoB">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputPhone" class="form-label">Phone number</label>
+                                        <input type="text" class="form-control" id="inputadminPhone">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="inputadminEmail4">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputAddress" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="inputadminAddress" placeholder="1234 Main St">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputAddress2" class="form-label">Address 2</label>
+                                        <input type="text" class="form-control" id="inputadminAddress2" placeholder="Apartment, studio, or floor">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputCity" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="inputadminCity">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="inputState" class="form-label">State</label>
+                                        <select id="inputadminState" class="form-select">
+                                          <option selected>Choose...</option>
+                                          <option>South Australia</option>
+                                          <option>New South Wales</option>
+                                          <option>Queensland</option>
+                                          <option>Tasmania</option>
+                                          <option>Victoria</option>
+                                          <option>Western Australia</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="inputZip" class="form-label">Postcode</label>
+                                        <input type="text" class="form-control" id="inputadminZip">
+                                    </div>
+    
+                                </div> -->
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right mt-3">
+                <button type="button" class="btn btn-primary"
+                    style="background-color:green; border-color: green;">Update</button>&nbsp;
+                <button type="button" class="btn btn-default">Cancel</button>
+            </div>
+
+        </div>
+
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    </div>
+</body>
+
+</html>
