@@ -39,22 +39,18 @@
 
     <!-- Javascripts -->
     <script src="javascripts/map.js"></script>
+    <script src="javascripts/objects.js"></script>
+    <script src="javascripts/signup_validation.js"></script>
 
     <!-- Mapbox -->
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
 
-    <title>Home</title>
-
-
-
-
-
-
+    <title>Covid Check</title>
 </head>
 
-<body">
+<body onload="getDate()">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
@@ -76,25 +72,36 @@
                         <a class="nav-link" href="#"> </a>
                     </li>
 
+                    <a class="nav-link active" id="mapActive" style="display:none" aria-current="page">Map</a>
                     <li class="nav-item">
-                        <a class="nav-link" href="user_map.html">Map</a>
+                        <a class="nav-link" id="mapInactive" onclick="mapPress()">Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
                     </li>
 
+                    <a class="nav-link active" id="historyActive" style="display:none" aria-current="page">My check-in
+                        history</a>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user_check_in_history.html">My check-in history</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user_account.html">My account</a>
+                        <a class="nav-link" id="historyInactive" onclick="historyPress()">My check-in history</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"> </a>
                     </li>
+
+                    <a class="nav-link active" id="accountActive" style="display:none" aria-current="page">My
+                        account</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="accountInactive" onclick="accountPress()">My account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+
+
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="logout.html">Logout</a>
                     </li>
@@ -115,7 +122,7 @@
         <div class="centeredBox">
             <h3>Covid 19 Check-in</h3>
             <img src="images/sampleQR.png" style="width:50px;height:50px;" alt="QR image">
-            <button type="button" onClick="parent.location='user_check_in.html'" class="btn btn-primary btn-lg">Check
+            <button type="button" onClick="checkInPress()" class="btn btn-primary btn-lg">Check
                 In</button>
             <br>
         </div>
@@ -211,12 +218,12 @@
                 <input type="text" class="form-control" id="venue_id" placeholder="enter venue id here">
             </div>
 
-            <!-- Button trigger modal -->
+            <!-- Check in confirmation -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Submit
             </button>
 
-            <!-- Modal -->
+
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -230,12 +237,52 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" onClick="parent.location='user_check_in_success.html'"
-                                class="btn btn-primary">Check-in</button>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">
+                                Check-In
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title" id="staticBackdropLabel">Check in success</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div>
+                                                <img src="images/tick.png" style="width:200px;height:200px"
+                                                    class="center" alt="QR image">
+                                                <br>
+                                                <br>
+                                                <p class="blackCentered">You have successfully checked in to</p>
+                                                <p class="greyCentered"> location name </p>
+                                                <br>
+                                                <p class="blackCentered">Checked in at</p>
+                                                <p id="current_time" style="text-align: center; color:grey"> </p>
+                                                <br>
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
 
             <br>
             <br>
@@ -411,6 +458,114 @@
         </div>
     </div>
 
-    </body>
+    <!-- My account Div -->
+    <div id="userAccount" style="display:none">
+
+
+        <div class="container light-style flex-grow-1 container-p-y">
+
+            <h4 class="font-weight-bold py-3 mb-4">
+                Account settings
+            </h4>
+
+            <div class="card overflow-hidden">
+                <div class="row no-gutters row-bordered row-border-light">
+                    <div class="col-md-3 pt-0">
+                        <div class="list-group list-group-flush account-settings-links">
+                            <a class="list-group-item list-group-item-action active" data-toggle="list"
+                                href="/user_account.html">General</a>
+                            <a onclick="update_password()" class="list-group-item list-group-item-action"
+                                data-toggle="list" href="/user_account.html">Change password</a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade active show" id="account-general">
+                                <div class="card-body">
+                                    <div class="col-md-6">
+                                        <label for="inputFirstname" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="inputFirstname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputLastname" class="form-label">Last name</label>
+                                        <input type="text" class="form-control" id="inputLastname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputDoB" class="form-label">Date of Birth</label>
+                                        <input type="text" class="form-control" id="inputDoB">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputPhone" class="form-label">Phone number</label>
+                                        <input type="text" class="form-control" id="inputPhone">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="inputEmail4">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputAddress" class="form-label">Address Line 1</label>
+                                        <input type="text" class="form-control" id="inputAddress"
+                                            placeholder="Street Number">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputAddress2" class="form-label">Address Line 2</label>
+                                        <input type="text" class="form-control" id="inputAddress2"
+                                            placeholder="Street Name">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputCity" class="form-label">Suburb</label>
+                                        <input type="text" class="form-control" id="inputCity">
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="inputZip" class="form-label">Postcode</label>
+                                        <input type="text" class="form-control" id="inputZip">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="account-change-password">
+                                <div class="card-body pb-2">
+
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">Current password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">New password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">Repeat new password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right mt-3">
+                <button onclick="update_user()" type="button" class="btn btn-primary"
+                    style="background-color:green; border-color: green;">Update</button>&nbsp;
+                <button onclick="window.location.href='user_home.html';" type="button"
+                    class="btn btn-default">Cancel</button>
+            </div>
+
+        </div>
+        <br><br><br><br><br>
+
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    </div>
+
+</body>
 
 </html>
