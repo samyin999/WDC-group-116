@@ -53,3 +53,13 @@ function accountPress() {
     document.getElementById('managerManage').style.display = "none";
     document.getElementById('managerAccount').style.display = "block";
 }
+
+function general() {
+    document.getElementById('generalOptions').style.display = "block";
+    document.getElementById('passwordOptions').style.display = "none";
+}
+
+function changePassword() {
+    document.getElementById('generalOptions').style.display = "none";
+    document.getElementById('passwordOptions').style.display = "block";
+}

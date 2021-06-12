@@ -20,7 +20,7 @@ function homePress() {
 
     document.getElementById('userHome').style.display = "block";
     document.getElementById('userCheckIn').style.display = "none";
-    document.getElementById('userMap').style.display = "none";
+    document.getElementById('userMap').style.display = "block";
     document.getElementById('userCheckHistory').style.display = "none";
     document.getElementById('userAccount').style.display = "none";
 }
@@ -91,4 +91,19 @@ function accountPress() {
     document.getElementById('userMap').style.display = "none";
     document.getElementById('userCheckHistory').style.display = "none";
     document.getElementById('userAccount').style.display = "block";
+}
+
+function getlocation() {
+ var location = document.getElementById("venue_id").value;
+  document.getElementById("confirmation").innerHTML = "Check in to " + location;
+}
+
+function general() {
+    document.getElementById('generalOptions').style.display = "block";
+    document.getElementById('passwordOptions').style.display = "none";
+}
+
+function changePassword() {
+    document.getElementById('generalOptions').style.display = "none";
+    document.getElementById('passwordOptions').style.display = "block";
 }

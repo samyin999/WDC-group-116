@@ -11,35 +11,37 @@ function signup() {
     var suburb = document.getElementById('suburb').value;
     var postcode = document.getElementById('postcode').value;
 
-    // if (isNaN(first_name) == false && isNaN(last_name) == false && isNaN(mobileNumber) == true) {
-    //   alert("Invalid input. Please check again.");
-    //   return false;
-    // }
+    if (isNaN(first_name) == false && isNaN(last_name) == false && isNaN(mobileNumber) == true) {
+      alert("Invalid input. Please check again.");
+      return false;
+    }
 
-    // else if (first_name == "" || last_name == "" || date_of_birth == "" || email == "" || mobileNumber == "") {
-    //   alert("Signup failed. Some input fields are empty.");
-    //   return false;
-    // }
+    else if (first_name == "" || last_name == "" || date_of_birth == "" || email == "" || mobileNumber == "") {
+      alert("Signup failed. Some input fields are empty.");
+      return false;
+    }
 
-    // else if (document.getElementById('yes').checked == true) {
-    //   if (venue_1 == "" || venue_2 == "" || suburb == "" || postcode == "") {
-    //     alert("Venue managers must fill in information about their business.");
-    //     return false;
-    //   }
-    // }
+    else if (document.getElementById('yes').checked == true) {
+      if (venue_1 == "" || venue_2 == "" || suburb == "" || postcode == "") {
+        alert("Venue managers must fill in information about their business.");
+        return false;
+      }
+    }
 
-    // else if (document.getElementById('yes').checked == false && document.getElementById('no').checked == false) {
-    //   alert("Please confirm if you are a venue manager.");
-    //   return false;
-    // }
+    else if (document.getElementById('yes').checked == false && document.getElementById('no').checked == false) {
+      alert("Please confirm if you are a venue manager.");
+      return false;
+    }
 
 
       alert("Signup successful!");
       if (document.getElementById('yes').checked == true) {
           add_venue_manager();
+          window.location.href = "manager.html";
       }
       else {
           add_user();
+          window.location.href = "user.html";
       }
 
 
@@ -48,13 +50,50 @@ function signup() {
 }
 
 function new_venue() {
-    alert("New venue registered!");
+    alert("Venue confirmed!");
     add_venue();
+
+    window.location.href = "manager.html";
+}
+
+function new_admin() {
+
+    var first_name = document.getElementById('firstname').value;
+    var last_name = document.getElementById('lastname').value;
+    var date_of_birth = document.getElementById('birthdate').value;
+    var email = document.getElementById('email').value;
+    var mobileNumber = document.getElementById('mob_number').value;
+    var accountCreationTime = new Date();
+    alert("New admin registered!");
+    add_admin();
+    window.location.href = "admin.html";
 }
 
 function update_user() {
     alert("Account updated successfully!");
     update_user_details();
+    window.location.href = "user.html";
+}
+
+function add_hotspot() {
+    alert("Hotspot updated!");
+    update_hotspot();
+}
+
+function update_admin() {
+    alert("Admin account successfully updated!");
+    update_admin_account();
+    window.location.href = "admin.html";
+}
+
+function cancel() {
+    window.location.href = "admin.html";
+}
+
+function checkin_confirm() {
+    check_in();
+    var location = document.getElementById("venue_id").value;
+    document.getElementById("confirmation1").innerHTML = location;
 }
 
 // function get_current_user() {

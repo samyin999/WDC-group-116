@@ -1,11 +1,11 @@
 /* mapbox */
 
-#map { 
-    position:relative; 
-    top: 0; 
-    bottom: 0; 
-    height:70vh;
-    width: 70vw;
+#map {
+    position:sticky;
+    top: 10;
+    bottom: 10;
+    height:77vh;
+    width: 77vw;
     display: block;
     margin-left: auto;
     margin-right: auto;

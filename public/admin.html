@@ -1,0 +1,645 @@
+ data-bs-dismiss="modal"<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="stylesheets/sam.css">
+    <link rel="stylesheet" href="stylesheets/map.css" type="text/css" />
+
+    <!-- Bootstrap 5-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 4-->
+    <!-- we need both because some of us used code from 4 and some of us used code from 5, was breaking some functionality-->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- Vue JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="javascripts/objects.js"></script>
+    <script src="javascripts/admin.js"></script>
+    <script src="javascripts/login.js"></script>
+    <script src="javascripts/vue.js" defer></script>
+    <script defer src="javascripts/signup_validation.js"></script>
+
+    <!-- Mapbox -->
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+
+
+    <!-- <style>
+        .marker {
+            background-image: url('images/mapbox-icon.png');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .mapboxgl-popup {
+            max-width: 200px;
+        }
+
+        .mapboxgl-popup-content {
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style> -->
+
+    <title>Home (Admin)</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" onclick="homePress()">Covid Check Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+
+                    <a class="nav-link active" id="databaseActive" style="display:none" aria-current="page">Check in
+                        history database</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="databaseInactive" onclick="databasePress()">Check in history
+                            database</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+
+                    <a class="nav-link active" id="venueActive" style="display:none" aria-current="page">Manage
+                        venues & hotspots</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="venueInactive" onclick="venuePress()">Manage venues & hotspots</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+
+                    <a class="nav-link active" id="otherAccountsActive" style="display:none" aria-current="page">Manage
+                        other accounts</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="otherAccountsInactive" onclick="otherAccountsPress()">Manage other
+                            accounts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+
+                    <a class="nav-link active" id="mapActive" style="display:none" aria-current="page">Map</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="mapInactive" onclick="mapPress();mapboxReize()">Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+
+                    <a class="nav-link active" id="accountActive" style="display:none" aria-current="page">My
+                        account</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="accountInactive" onclick="accountPress()">My account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a onclick="logout_admin()" class="nav-link" href="login.html">Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="bread" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+    </nav>
+
+    <!-- Home div -->
+    <div id="adminHome">
+
+
+        <!-- Covid figures -->
+        <div onload="display_date()" class="centeredBox">
+            <h3 id="admin_date">Official COVID-19 Statistics for 12 June 2021</h3>
+            <br>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td style="font-weight: 600;">New cases</td>
+                        <td>5</td>
+                        <td style="font-weight: 600;">Hotspot locations</td>
+                        <td>12</td>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: 600;">Active cases</td>
+                        <td>2</td>
+                        <td style="font-weight: 600;">Total cases</td>
+                        <td>563</td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Recent active cases -->
+        <div class="centeredBox">
+            <h3>Recent active cases</h3>
+            <!-- placeholder for recent -->
+            <table class="table table-borderless" id="recentcases">
+                <thead>
+                    <tr>
+                        <td style="font-weight: 600;">Name</td>
+                        <td style="font-weight: 600;">Positive test date</td>
+                        <td style="font-weight: 600;">Recent visits</td>
+                    </tr>
+                </thead>
+                <tbody v-for="row in rows">
+                    <tr>
+                        <td>{{row.name}}</td>
+                        <td>{{row.date}}</td>
+                        <td>{{row.recent}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+        </div>
+
+    </div>
+
+    <!-- Check in database div -->
+    <div id="adminDatabase" style="display:none">
+
+        <div class="container light-style flex-grow-1 container-p-y">
+
+            <h3 style="text-align:center;">
+                Check-in History
+            </h3>
+
+
+            <table class="table table-striped" style="width:100%" id="checkindatabase">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody v-for="row in rows">
+                    <tr>
+                        <td>{{row.name}}</td>
+                        <td>{{row.date}}</td>
+                        <td>{{row.location}}</td>
+                        <td>{{row.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Manage hotspots div -->
+    <div id="adminVenue" style="display:none">
+        <div class="centeredBox">
+            <h1> Manage Hotspots </h1>
+            <br>
+            <p> Use the buttons below to add or remove a hotspot </p>
+            <br>
+        </div>
+
+        <div id="checkinBox">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addHotspotModal">
+                Add Hotspot
+            </button>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteHotspotModal">
+                Delete Hotspot
+            </button>
+
+            <!-- Modal add hotspot -->
+            <div class="modal fade" id="addHotspotModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Hotspot</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="add">
+                            <form>
+
+                                <div>
+                                    <div>
+                                        <label><b>Site</b></label>
+                                        <input id="venue_id" type="text" placeholder="Enter Venue ID" name="site">
+                                    </div>
+                                    <br>
+                                    <div class="form-row hide-inputbtns">
+                                        <label><b>Exposure Date</b></label>
+                                        <input id="date" class="birthdate" type="text" placeholder="YYYY-MM-DD"
+                                            data-date-split-input="true" />
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <label><b>Starting Exposure Period (time)</b></label>
+                                        <div class="col-10">
+                                            <input class="form-control" type="time" value="13:45:00" id="start_time">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <label><b>Ending Exposure Period (time)</b></label>
+                                        <div class="col-10">
+                                            <input class="form-control" type="time" value="14:45:00" id="end_time">
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" data-bs-dismiss="modal" onclick="add_hotspot()"
+                                class="btn btn-primary">Confirm</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal delete hotspot -->
+            <div class="modal fade" id="deleteHotspotModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Hotspot</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="add">
+                            <form>
+
+                                <div>
+                                    <div>
+                                        <label><b>Site</b></label>
+                                        <input id="venue_id" type="text" placeholder="Enter Venue ID" name="site">
+                                    </div>
+                                    <br>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" data-bs-dismiss="modal" onclick="add_hotspot()"
+                                class="btn btn-primary">Confirm</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+
+        </div>
+    </div>
+
+    <!-- Manage other accounts div -->
+    <div id="adminOtherAccounts" style="display:none">
+
+
+        <div class="table-responsive">
+            <table class="table table-striped" style="width:100%" id="table1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone number</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody v-for="row in rows">
+                    <td>{{row.name}}</td>
+                    <td>{{row.email}}</td>
+                    <td>{{row.phone}}</td>
+                    <td>{{row.status}}</td>
+                </tbody>
+            </table>
+        </div>
+        <div class="centeredBox">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupAdminModal">
+                Register another admin account
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="signupAdminModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Sign up Admin</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form">
+                                <div class="card-body">
+                                    <div class="col-md-6">
+                                        <label for="inputFirstname" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="firstname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputLastname" class="form-label">Last name</label>
+                                        <input type="text" class="form-control" id="lastname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputDoB" class="form-label">Date of Birth</label>
+                                        <input type="text" class="form-control" id="birthdate">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputPhone" class="form-label">Phone number</label>
+                                        <input type="text" class="form-control" id="mob_number">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputPassword4">Enter password?</label>
+                                        <input type="password" id="password" class="form-control"
+                                            placeholder="Enter password">
+                                        <small id="passwordHelpInline" class="text-muted">
+                                            Must be 8-20 characters long.
+                                        </small>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button onclick="new_admin()" type="button" class="btn btn-primary">Sign up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+
+        </div>
+    </div>
+
+    <!-- Map div -->
+    <div id="adminMap" style="display:block">
+
+        <h3 style="text-align:center; color: blue;">
+            Check-in History
+        </h3>
+
+        <!-- Interactive map-->
+        <div id='map' onload="mapboxReize()"></div>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1Ijoic2FteWluOTkiLCJhIjoiY2twM2E3amdpMDR3ZTJucHQ1ZDB6d29yZSJ9.SbAKqSYFa62av0wWrmrh2A';
+
+            var map = new mapboxgl.Map({
+                container: 'map', // container ID
+                style: 'mapbox://styles/mapbox/streets-v11', // style URL
+                center: [138.6, -34.9],
+                // center: [-74.5, 40], // starting position [lng, lat]
+                zoom: 9 // starting zoom
+            });
+
+            // red dot
+            var geojson = {
+                type: 'FeatureCollection',
+                features: [{
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [138.612458, -34.941537]
+                    },
+                    properties: {
+                        title: 'Mapbox',
+                        description: '04/04/21 John Smith '
+                    }
+                },
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [138.619434, -34.914490]
+                    },
+                    properties: {
+                        title: 'Mapbox',
+                        description: 'marker 2'
+                    }
+                },
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [138.580061, -34.923043]
+                    },
+                    properties: {
+                        title: 'Mapbox',
+                        description: 'marker 3'
+                    }
+                }]
+            };
+
+            geojson.features.forEach(function (marker) {
+
+                // create a HTML element for each feature
+                var el = document.createElement('div');
+                el.className = 'marker';
+
+                // make a marker for each feature and add to the map
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.geometry.coordinates)
+                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                        .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+                    .addTo(map);
+            });
+
+
+            // hotspot marker
+            var geojson_hotspot = {
+                type: 'FeatureCollection',
+                features: [{
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [138.5982, -34.9285]
+                    },
+                    properties: {
+                        title: 'Mapbox',
+                        description: '04/04/21 John Smith '
+                    }
+                }]
+            };
+
+            geojson_hotspot.features.forEach(function (marker) {
+
+                // create a HTML element for each feature
+                var el = document.createElement('div');
+                el.className = 'marker_hotspot';
+
+                // make a marker for each feature and add to the map
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.geometry.coordinates)
+                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                        .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+                    .addTo(map);
+            });
+
+        </script>
+
+    </div>
+
+    <!-- My account Div -->
+    <div id="adminAccount" style="display:none">
+
+
+        <div class="container light-style flex-grow-1 container-p-y">
+
+            <h4 class="font-weight-bold py-3 mb-4">
+                Account settings
+            </h4>
+
+            <div class="card overflow-hidden">
+                <div class="row no-gutters row-bordered row-border-light">
+                    <div class="col-md-3 pt-0">
+                        <div class="list-group list-group-flush account-settings-links">
+                            <a class="list-group-item list-group-item-action" data-toggle="list"
+                                onclick="general()">General</a>
+                            <a onclick="changePassword()" class="list-group-item list-group-item-action"
+                                data-toggle="list">Change password</a>
+                            <a class="list-group-item" onclick="otherAccountsPress()">Sign up admin</a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade active show" id="account-general">
+                                <div id="generalOptions" class="card-body">
+                                    <div class="col-md-6">
+                                        <label for="inputFirstname" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="inputFirstname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputLastname" class="form-label">Last name</label>
+                                        <input type="text" class="form-control" id="inputLastname">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputDoB" class="form-label">Date of Birth</label>
+                                        <input type="text" class="form-control" id="inputDoB">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputPhone" class="form-label">Phone number</label>
+                                        <input type="text" class="form-control" id="inputPhone">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="inputEmail4">
+                                    </div>
+                                </div>
+
+                                <div id="passwordOptions" style="display: none">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">Current password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">New password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label">Repeat new password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right mt-3">
+                <button onclick="update_user()" type="button" class="btn btn-primary"
+                    style="background-color:green; border-color: green;">Update</button>&nbsp;
+                <button onclick="window.location.href='user_home.html';" type="button"
+                    class="btn btn-default">Cancel</button>
+            </div>
+
+        </div>
+        <br><br><br><br><br>
+
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    </div>
+
+
+    <script>
+        function opentab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-pane");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("list-group-item");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+
+
+</body>
+
+</html>

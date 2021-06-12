@@ -8,12 +8,16 @@ function login() {
     var password = document.getElementById("password").value;
 
     if (username == "user" && password == "user123") {
-      alert("User validation succeeded. Welcome!");
-      location.href = "user_home.html";
+      alert("User login successful. Welcome!");
+      location.href = "user.html";
      }
     else if (username == "manager" && password == "manager123") {
-      alert("Venue manager validation succeeded. Welcome!");
-      location.href = "manager_home.html";
+      alert("Venue manager login successful. Welcome!");
+      location.href = "manager.html";
+    }
+    else if (username == "admin" && password == "admin123") {
+      alert("Admin login successful. Welcome!");
+      location.href = "admin.html";
     }
     else {
       alert("Validation failed. Please re-enter your login details.");
@@ -23,3 +27,28 @@ function login() {
     return false;
 
 }
+
+function logout_user() {
+  alert("Logged out successfully! We hope you enjoyed our site!");
+  window.location.href = "login.html";
+}
+
+function logout_manager() {
+  alert("Logged out successfully! We hope you enjoyed our site!");
+  window.location.href = "login.html";
+}
+
+function logout_admin() {
+  alert("Logged out successfully! We hope you enjoyed our site!");
+  window.location.href = "login.html";
+}
+
+// function signOut() {
+//     var auth2 = gapi.auth2.getAuthInstance();
+//     auth2.signOut().then(function () {
+//       console.log('User signed out.');
+//     });
+// }
+
+
+
