@@ -1,17 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-    <title>login</title>
+    <title>Login</title>
 
     <meta charset="UTF-8">
-    <meta name="google-signin-client_id" content="186202105193-9q8v5p15junk5nfje7besqq1sa9tm55g.apps.googleusercontent.com">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- Open ID Google Sign-In -->
+    <meta name="google-signin-client_id"
+        content="186202105193-9q8v5p15junk5nfje7besqq1sa9tm55g.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="stylesheets/login.css">
+
+    <!-- Vue -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- Javascripts -->
     <script src="javascripts/objects.js"></script>
     <script src="javascripts/login.js"></script>
 
@@ -25,16 +37,19 @@
 
         <div id="login">
 
+            <!-- Username -->
             <div class="valid-feedback">
                 <label><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="username" id="user" value="" required>
+                <input type="text" placeholder="Enter Username" name="username" id="username" required>
             </div>
 
+            <!-- Password -->
             <div class="valid-feedback">
                 <label><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="password" id="password" required>
             </div>
 
+            <!-- Buttons -->
             <button type="button" onclick="login()">Login</button>
             <button type="button" onclick="window.location.href='signup.html';"> Sign Up </button>
             <div class="g-signin2" data-onsuccess="onSignIn"></div>

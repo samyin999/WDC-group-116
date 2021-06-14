@@ -15,6 +15,3 @@ QRCode.toFile('./public/images/b.png', 'google.com', {
 QRCode.toString('I am a pony!',{type:'terminal'}, function (err, url) {
   console.log(url);
 });
-
-
-

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <link rel="stylesheet" href="stylesheets/sam.css">
 
@@ -48,7 +49,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
 
-                    <a class="nav-link active" id="logActive" style="display:none" aria-current="page">Check in log</a>
+                    <li><a class="nav-link active" id="logActive" style="display:none" aria-current="page">Check in
+                            log</a></li>
                     <li class="nav-item">
                         <a class="nav-link" id="logInactive" onclick="logPress()">Check in log</a>
                     </li>
@@ -57,8 +59,8 @@
                     </li>
 
 
-                    <a class="nav-link active" id="manageActive" style="display:none" aria-current="page">Manage
-                        venue</a>
+                    <li><a class="nav-link active" id="manageActive" style="display:none" aria-current="page">Manage
+                            venue</a></li>
                     <li class="nav-item">
                         <a class="nav-link" id="manageInactive" onclick="managePress()">Manage venue</a>
                     </li>
@@ -67,8 +69,8 @@
                     </li>
 
 
-                    <a class="nav-link active" id="accountActive" style="display:none" aria-current="page">My
-                        account</a>
+                    <li> <a class="nav-link active" id="accountActive" style="display:none" aria-current="page">My
+                            account</a></li>
                     <li class="nav-item">
                         <a class="nav-link" id="accountInactive" onclick="accountPress()">My account</a>
                     </li>
@@ -95,9 +97,9 @@
         <!-- Covid figures -->
         <div class="centeredBox">
             <h3>Management account for:</h3>
-            <p id="name_venue" onkeydown=="display_menu()">Woolworths</p>
+            <p id="name_venue" onkeydown="display_menu()">Rundle Mall</p>
             <h3>Address</h3>
-            <p>104 Walkerville Terrace, Walkerville SA 5081</p>
+            <p>Adelaide SA 5000</p>
         </div>
 
         <!-- Undecided -->
@@ -107,12 +109,16 @@
             <table class="table table-borderless" id="recentcheckinTable">
                 <thead>
                     <tr>
-                        <th v-for="col in columns">{{col}}</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="row in rows">
-                        <td v-for="col in columns">{{row[col]}}</td>
+                        <td>{{row.Name}}</td>
+                        <td>{{row.Time}}</td>
+                        <td>{{row.Status}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -133,14 +139,18 @@
 
 
             <table id="managerlog" class="table table-striped" style="width:100%">
-                  <thead>
+                <thead>
                     <tr>
-                        <th v-for="col in columns">{{col}}</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="row in rows">
-                        <td v-for="col in columns">{{row[col]}}</td>
+                        <td>{{row.Name}}</td>
+                        <td>{{row.Time}}</td>
+                        <td>{{row.Status}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -149,7 +159,7 @@
 
 
     <!-- Manage Div -->
-    <div id="managerManage" style="display:none">
+    <div id="managerManage" style="display:none" v-on:click="get_venue()">
         <div class="container light-style flex-grow-1 container-p-y" id="vue_venue">
 
             <h3 style="text-align:center;">
@@ -157,21 +167,20 @@
             </h3>
 
 
-            <table class="table table-striped" style="width:100%" id="vue_venue">
+            <table class="table table-striped" style="width:100%">
 
-                <!--v-for="(name, address, status) in rows"-->
-                <!--v-bind:name="rows.name"-->
-                <!--v-bind:address="rows.address"-->
-                <!--v-bind:status="rows.status"-->
-                <!--v-on:remove="todos.splice(index, 1)">-->
                 <thead>
                     <tr>
-                        <th v-for="col in columns">{{col}}</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="row in rows">
-                        <td v-for="col in columns">{{row[col]}}</td>
+                        <td>{{row.Name}}</td>
+                        <td>{{row.Address}}</td>
+                        <td>{{row.Status}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -194,32 +203,33 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="add">
-                                <div class="form">
+                                <div class="form" style="text-align:left;">
                                     <div class="card-body">
                                         <div class="col-md-6">
-                                            <label for="inputVenuename" class="form-label">Venue name</label>
-                                            <input type="text" class="form-control" id="addvenuename">
+                                            <label class="form-label">Venue name</label>
+                                            <input type="text" class="form-control" id="addvenuename" v-model="Name">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="inputPhone" class="form-label">Contact number</label>
-                                            <input type="text" class="form-control" id="addvenuephone">
+                                            <label class="form-label">Contact number</label>
+                                            <input type="text" class="form-control" id="addvenuephone" v-model="No">
                                         </div>
                                         <div class="col-12">
-                                            <label for="inputAddress" class="form-label">Address</label>
-                                            <input type="text" class="form-control" id="addvenueaddress" placeholder="1234 Main St">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" class="form-control" id="addvenueaddress"
+                                                placeholder="1234 Main St">
                                         </div>
                                         <div class="col-12">
-                                            <label for="inputAddress2" class="form-label">Address 2</label>
-                                            <input type="text" class="form-control" id="ad2"
+                                            <label class="form-label">Address 2</label>
+                                            <input type="text" class="form-control" id="addvenueaddress2"
                                                 placeholder="Apartment, studio, or floor">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="inputCity" class="form-label">Suburb</label>
-                                            <input type="text" class="form-control" id="suburb">
+                                            <label class="form-label">Suburb</label>
+                                            <input type="text" class="form-control" id="suburb" v-model="Lat">
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="inputPostcode" class="form-label">Postcode</label>
-                                            <input type="text" class="form-control" id="postcode">
+                                            <label class="form-label">Postcode</label>
+                                            <input type="text" class="form-control" id="postcode" v-model="Lon">
                                         </div>
 
                                     </div>
@@ -229,11 +239,55 @@
 
 
                             <div class="modal-footer">
-                                <button type="button" data-bs-dismiss="modal" onclick="new_venue()"
-                                    class="btn btn-primary" v-on:click="addvenue()">Confirm</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button onclick="checkin_confirm(); venueSuccess()" type="button" class="btn btn-primary"
+                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                    v-on:click="add_venue();addvenue()">
+                                    Confirm
+                                </button>
                             </div>
+
+                            <!-- Button trigger modal -->
+
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title" id="staticBackdropLabel">Venue added</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div>
+                                                <img src="images/b.png" style="width:300px;height:300px" class="center"
+                                                    alt="QR image">
+                                                <br>
+                                                <br>
+                                                <p class="blackCentered">The QR code shown above will allow users to
+                                                    check in to your venue</p>
+
+
+                                                <br>
+                                                <br>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -247,8 +301,6 @@
     </div>
 
 
-
-    </div>
 
     <!-- My account Div -->
     <div id="managerAccount" style="display:none">
@@ -322,10 +374,8 @@
             </div>
 
             <div class="text-right mt-3">
-                <button onclick="update_user()" type="button" class="btn btn-primary"
-                    style="background-color:green; border-color: green;">Update</button>&nbsp;
-                <button onclick="window.location.href='user_home.html';" type="button"
-                    class="btn btn-default">Cancel</button>
+                <button onclick="update_manager_details()" type="button" class="btn btn-primary">Update</button>&nbsp;
+
             </div>
 
         </div>
@@ -336,5 +386,3 @@
     </div>
 
 </body>
-
-</html>

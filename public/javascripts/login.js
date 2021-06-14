@@ -2,9 +2,10 @@ function display_signup() {
     window.open("https://ide-7ffa2dafa0d84506ac6daba9570f3246-8081.cs50.ws/signup.html");
 }
 
+// login function
 function login() {
 
-    var username = document.getElementById("user").value;
+    var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
 
     if (username == "user" && password == "user123") {
@@ -28,6 +29,8 @@ function login() {
 
 }
 
+// logout functions
+
 function logout_user() {
   alert("Logged out successfully! We hope you enjoyed our site!");
   window.location.href = "login.html";
@@ -43,12 +46,6 @@ function logout_admin() {
   window.location.href = "login.html";
 }
 
-// function signOut() {
-//     var auth2 = gapi.auth2.getAuthInstance();
-//     auth2.signOut().then(function () {
-//       console.log('User signed out.');
-//     });
-// }
 
 
 

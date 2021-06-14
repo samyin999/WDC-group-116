@@ -1,3 +1,4 @@
+// Sign up new user
 function signup() {
 
     var first_name = document.getElementById('firstname').value;
@@ -10,6 +11,8 @@ function signup() {
     var venue_2 = document.getElementById('address2').value;
     var suburb = document.getElementById('suburb').value;
     var postcode = document.getElementById('postcode').value;
+
+    // Check for invalid input
 
     if (isNaN(first_name) == false && isNaN(last_name) == false && isNaN(mobileNumber) == true) {
       alert("Invalid input. Please check again.");
@@ -33,29 +36,29 @@ function signup() {
       return false;
     }
 
+    alert("Signup successful!");
 
-      alert("Signup successful!");
-      if (document.getElementById('yes').checked == true) {
+    if (document.getElementById('yes').checked == true) {
           add_venue_manager();
           window.location.href = "manager.html";
-      }
-      else {
+    }
+    else {
           add_user();
           window.location.href = "user.html";
-      }
-
+    }
 
     return false;
-
 }
 
+// Sign up new venue
 function new_venue() {
     alert("Venue confirmed!");
-    add_venue();
+    add_venue1();
 
     window.location.href = "manager.html";
 }
 
+// Sign up new admin
 function new_admin() {
 
     var first_name = document.getElementById('firstname').value;
@@ -69,37 +72,56 @@ function new_admin() {
     window.location.href = "admin.html";
 }
 
+// Update user details, validate new password
 function update_user() {
-    alert("Account updated successfully!");
+    var new_password = document.getElementById('new_password').value;
+    var new_password_confirm = document.getElementById('new_password_confirm').value;
+
+    if (new_password !== new_password_confirm) {
+        alert("New password does not match confirmed password! Please try again.");
+    }
+    else {
+        alert("Account updated successfully!");
+    }
     update_user_details();
     window.location.href = "user.html";
 }
 
-function add_hotspot() {
-    alert("Hotspot updated!");
-    update_hotspot();
+// Update manager details
+function update_manager_details() {
+
+    alert("Account updated successfully!");
+    update_manager();
+    window.location.href = "manager.html";
 }
 
+// Update hotspot
+function add_hotspot() {
+    alert("Hotspot updated!");
+}
+
+// Update admin details
 function update_admin() {
     alert("Admin account successfully updated!");
     update_admin_account();
     window.location.href = "admin.html";
 }
 
+// Cancel signup
 function cancel() {
     window.location.href = "admin.html";
 }
 
+// Confirm checkin
 function checkin_confirm() {
     check_in();
+    addcheckin();
     var location = document.getElementById("venue_id").value;
     document.getElementById("confirmation1").innerHTML = location;
+
 }
 
-// function get_current_user() {
-//     get_user();
-// }
-
+// Check password strength on signup
  function passwordStrength(password) {
 
       var rating = [

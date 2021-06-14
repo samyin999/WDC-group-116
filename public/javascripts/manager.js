@@ -1,3 +1,5 @@
+// On the manager page, these functions display and hide the relevant divs as the user navigates the page using the nav bar
+
 function homePress() {
     document.getElementById('logActive').style.display = "none";
     document.getElementById('logInactive').style.display = "block";
@@ -62,4 +64,8 @@ function general() {
 function changePassword() {
     document.getElementById('generalOptions').style.display = "none";
     document.getElementById('passwordOptions').style.display = "block";
+}
+
+function venueSuccess () {
+    alert("Venue successfully added");
 }

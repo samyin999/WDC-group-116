@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <link rel="stylesheet" href="stylesheets/user.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/user_account.css">
@@ -27,16 +28,13 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src=javascripts/user.js></script>
 
-    <!-- Javascripts -->
-    <script src="javascripts/map.js"></script>
-
     <!-- Mapbox -->
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+
     <!-- Vue JS -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-    <script src="javascripts/vue.js" defer></script>
 
     <!-- Javascripts -->
     <script src="javascripts/map.js"></script>
@@ -74,26 +72,30 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#"> </a>
                     </li>
-
-                    <a class="nav-link active" id="mapActive" style="display:none" aria-current="page">Map</a>
-                    <li class="nav-item">
-                        <a class="nav-link" id="mapInactive" onclick="mapPress();mapboxReize();">Map</a>
+                    <li>
+                        <a class="nav-link active" id="mapActive" style="display:none" aria-current="page">Map</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> </a>
+                        <a class="nav-link" id="mapInactive" onclick="mapPress()">Map</a>
                     </li>
-
-                    <a class="nav-link active" id="historyActive" style="display:none" aria-current="page">My check-in
-                        history</a>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="mapPress();coolFunk();"> </a>
+                    </li>
+                    <li>
+                        <a class="nav-link active" id="historyActive" style="display:none" aria-current="page">My
+                            check-in
+                            history</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" id="historyInactive" onclick="historyPress()">My check-in history</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"> </a>
                     </li>
-
-                    <a class="nav-link active" id="accountActive" style="display:none" aria-current="page">My
-                        account</a>
+                    <li>
+                        <a class="nav-link active" id="accountActive" style="display:none" aria-current="page">My
+                            account</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" id="accountInactive" onclick="accountPress()">My account</a>
                     </li>
@@ -133,37 +135,9 @@
                 <h5 class="card-title">Warning!</h5>
                 <p class="card-text">A recent location you have visited has been marked a Covid hotspot by a health
                     official. Click here to review recent locations you have been to</p>
-                <a href="user_check_in_history.html" class="btn btn-primary">Review recent visits</a>
+                <a onclick="historyPress()" class="btn btn-primary" id="visits">Review recent visits</a>
             </div>
         </div>
-
-        <!-- Covid figures: SCRAPPED FEATURE
-    <div class="centeredBox">
-        <h3 id="append_time">Official covid figures for </h3>
-        <br>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <td style="font-weight: 600;">New cases</td>
-                    <td>1</td>
-                    <td style="font-weight: 600;">Hotspot locations</td>
-                    <td>12</td>
-
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="font-weight: 600;">Active cases</td>
-                    <td>123</td>
-                    <td style="font-weight: 600;">Total cases</td>
-                    <td>1234</td>
-
-                </tr>
-
-            </tbody>
-        </table>
-    </div> -->
-
 
         <!-- List of hotspots -->
         <div class="centeredBox">
@@ -173,12 +147,14 @@
             <table class="table table-borderless" id="hotspots">
                 <thead>
                     <tr>
-                        <th v-for="col in columns">{{col}}</th>
+                        <th>Location</th>
+                        <th>Hotspot timeframes</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="row in rows">
-                        <td v-for="col in columns">{{row[col]}}</td>
+                        <td>{{row.Location}}</td>
+                        <td>{{row.Cases}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -205,10 +181,9 @@
             <br>
             <br>
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Alternatively, enter the check-in code
+                <label class="form-label">Alternatively, enter the check-in code
                     here</label>
-                <input v-model="venue_name" type="text" class="form-control" id="venue_id"
-                    placeholder="enter venue id here">
+                <input type="text" class="form-control" id="venue_id" placeholder="enter venue id here">
             </div>
 
 
@@ -219,8 +194,7 @@
             </button>
 
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -234,7 +208,7 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 
                             <!-- Button trigger modal -->
-                            <button onclick="checkin_confirm()" type="button" class="btn btn-primary"
+                            <button onclick="checkin_confirm();" type="button" class="btn btn-primary"
                                 data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                 Check-In
                             </button>
@@ -257,7 +231,7 @@
                                                 <br>
                                                 <br>
                                                 <p class="blackCentered">You have successfully checked in to</p>
-                                                <p class="greyCentered" id="confirmation1"> location name </p>
+                                                <p class="greyCentered" id="confirmation1"> Venue id: Rundle Mall </p>
                                                 <br>
                                                 <p class="blackCentered">Checked in at</p>
                                                 <p id="current_time" style="text-align: center; color:grey"> </p>
@@ -266,7 +240,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
+                                            <button onclick="coolFunk()" type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
@@ -295,115 +269,36 @@
         <div class="drop">
 
             <div class="dropdown">
-                <button onclick="myFunction()" class="dropbtn"> View Hotspots ▼ </button>
+                <button onclick="myFunction()" class="dropbtn"> View Options ▼ </button>
                 <div id="myDropdown" class="dropdown-content">
-                    <a href=""> View Recent Check-Ins </a>
+                    <a onclick="viewCheckIn()"> View Recent Check-Ins </a>
+                    <a onclick="viewHotspots()"> View Hotspots </a>
                 </div>
+
             </div>
 
         </div>
+
+        <h1 class="header_map"> Map of Hotspots and Checkins </h1>
+
         <br>
         <br>
         <br>
-        <!--<h1 class="header_map"> Map of Hotspots </h1>-->
 
         <!-- Interactive map-->
-        <div id='map' onload="mapboxReize()"></div>
+        <div id='map' onload="mapboxResize()"></div>
         <script>
             mapboxgl.accessToken = 'pk.eyJ1Ijoic2FteWluOTkiLCJhIjoiY2twM2E3amdpMDR3ZTJucHQ1ZDB6d29yZSJ9.SbAKqSYFa62av0wWrmrh2A';
 
             var map = new mapboxgl.Map({
                 container: 'map', // container ID
-                style: 'mapbox://styles/mapbox/streets-v11', // style URL
-                center: [138.6, -34.9],
+                style: 'mapbox://styles/mapbox/light-v10', // style URL
+                center: [138.59984425369254, -34.92773021212241],
                 // center: [-74.5, 40], // starting position [lng, lat]
-                zoom: 9 // starting zoom
+                zoom: 12 // starting zoom
             });
-
-            // red dot
-            var geojson = {
-                type: 'FeatureCollection',
-                features: [{
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [138.612458, -34.941537]
-                    },
-                    properties: {
-                        title: 'Mapbox',
-                        description: '04/04/21 John Smith '
-                    }
-                },
-                {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [138.619434, -34.914490]
-                    },
-                    properties: {
-                        title: 'Mapbox',
-                        description: 'marker 2'
-                    }
-                },
-                {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [138.580061, -34.923043]
-                    },
-                    properties: {
-                        title: 'Mapbox',
-                        description: 'marker 3'
-                    }
-                }]
-            };
-
-            geojson.features.forEach(function (marker) {
-
-                // create a HTML element for each feature
-                var el = document.createElement('div');
-                el.className = 'marker';
-
-                // make a marker for each feature and add to the map
-                new mapboxgl.Marker(el)
-                    .setLngLat(marker.geometry.coordinates)
-                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-                        .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
-                    .addTo(map);
-            });
-
-
-            // hotspot marker
-            var geojson_hotspot = {
-                type: 'FeatureCollection',
-                features: [{
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [138.5982, -34.9285]
-                    },
-                    properties: {
-                        title: 'Mapbox',
-                        description: '04/04/21 John Smith '
-                    }
-                }]
-            };
-
-            geojson_hotspot.features.forEach(function (marker) {
-
-                // create a HTML element for each feature
-                var el = document.createElement('div');
-                el.className = 'marker_hotspot';
-
-                // make a marker for each feature and add to the map
-                new mapboxgl.Marker(el)
-                    .setLngLat(marker.geometry.coordinates)
-                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-                        .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
-                    .addTo(map);
-            });
-
         </script>
+
 
 
 
@@ -427,14 +322,26 @@
             <table class="table table-striped" style="width:100%" id="userCheckinHistory">
                 <thead>
                     <tr>
-                        <th v-for="col in columns">{{col}}</th>
+                        <th>Venue</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Hotspot</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="row in rows">
-                        <td v-for="col in columns">{{row[col]}}</td>
+                        <td>{{row.Venue}}</td>
+                        <td>{{row.Date}}</td>
+                        <td>{{row.Time}}</td>
+                        <td>{{row.Hotspot}}</td>
                     </tr>
-                </tbody>
+                    <tr id="checkInHistory" style="display: none">
+
+                        <td>Rundle Mall</td>
+                        <td>14/06/21</td>
+                        <td>06:08 PM</td>
+                        <td>Positive</td>
+                    </tr>
             </table>
         </div>
     </div>
@@ -511,11 +418,11 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="form-label">New password</label>
-                                        <input type="password" class="form-control">
+                                        <input type="password" class="form-control" id="new_password">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="form-label">Repeat new password</label>
-                                        <input type="password" class="form-control">
+                                        <input type="password" class="form-control" id="new_password_confirm">
                                     </div>
                                 </div>
 
@@ -528,10 +435,7 @@
             </div>
 
             <div class="text-right mt-3">
-                <button onclick="update_user()" type="button" class="btn btn-primary"
-                    style="background-color:green; border-color: green;">Update</button>&nbsp;
-                <button onclick="window.location.href='user_home.html';" type="button"
-                    class="btn btn-default">Cancel</button>
+                <button onclick="update_user()" type="button" class="btn btn-primary">Update</button>&nbsp;
             </div>
 
         </div>

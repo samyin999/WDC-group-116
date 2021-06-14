@@ -12,14 +12,6 @@ var recentcheckinTable = new Vue({
       { Name: "Joel Scandrett-Smith", Time: '12:42 PM', Status: 'Negative' }
     ]
   },
-    computed: {
-      "columns": function columns() {
-        if (this.rows.length == 0) {
-          return [];
-        }
-        return Object.keys(this.rows[0]);
-      }
-    }
 });
 
 var managerlog = new Vue({
@@ -35,17 +27,9 @@ var managerlog = new Vue({
       { Name: "Joel Scandrett-Smith", Time: '12:42 PM', Status: 'Negative' }
     ]
   },
-    computed: {
-      "columns": function columns() {
-        if (this.rows.length == 0) {
-          return [];
-        }
-        return Object.keys(this.rows[0]);
-      }
-    }
 });
 
-var Table1 = new Vue({
+var table1 = new Vue({
   el: '#table1',
   data: {
     rows: [
@@ -53,14 +37,14 @@ var Table1 = new Vue({
       { Name: "Dan Castellaneta", Email: 'dan.c11@bigpond.com', Phone: '0409274582',Status: 'Admin' }
     ]
   },
-    computed: {
-      "columns": function columns() {
-        if (this.rows.length == 0) {
-          return [];
-        }
-        return Object.keys(this.rows[0]);
-      }
-    }
+   addadmin: function () {
+    this.rows.push({
+    Name: document.getElementById('firstname').value + " " + document.getElementById('lastname').value,
+    Email: document.getElementById('email').value,
+    Phone: document.getElementById('mob_number').value,
+    Status: "Admin"
+          });
+        },
 });
 var recentcases = new Vue({
   el: '#recentcases',
@@ -70,86 +54,44 @@ var recentcases = new Vue({
       { Name: "Jesus", Date: '25-01-2021', Recent: 'University of Adelaide'}
     ]
   },
-    computed: {
-      "columns": function columns() {
-        if (this.rows.length == 0) {
-          return [];
-        }
-        return Object.keys(this.rows[0]);
-      }
-    }
 });
 
 var hotspots = new Vue({
   el: '#hotspots',
   data: {
     rows: [
-      { Location: "Rundle Mall",Cases: '900'},
-      { Location: "Airport", Cases: '10000'}
+      { Location: "Rundle Mall", Cases: '14:00 - 18:00'},
+      { Location: "Foodworks North Adelaide", Cases: '14:00 - 18:00'},
+      { Location: "Foodworks", Cases: '16:00 - 17:00'}
     ]
   },
-  computed: {
-      "columns": function columns() {
-        if (this.rows.length == 0) {
-          return [];
-        }
-        return Object.keys(this.rows[0]);
-      }
-    }
 });
 var checkindatabase = new Vue({
   el: '#checkindatabase',
   data: {
     rows: [
-      { name: "Yattla Labour Prison", date:'27/8/2020', location: '9:55 AM', status: 'Positive'},
-      { name: "Adelaide Magistrates Court", date:'27/8/2020', location: '4:55 AM', status: 'Negative'},
-      { name: "SAPOL Edinborough North", date:'20/8/2020', location: '2:35 AM', status: 'Negative'},
-      { name: "Commbank Elizabeth", date:'20/8/2020', location: '1:55 AM', status: 'Negative'},
-      { name: "Masks and CostumesRUs", date:'20/8/2020', location: '12:25 AM', status: 'Negative'},
-      { name: "Bunnings Warehouse", date:'20/8/2020', location: '11:55 AM', status: 'Negative'}
+      { name: "Antony Cameron", date:'13/06/21', location: 'Bunnings Kent Town', status: 'Negative'},
+      { name: "Antony Cameron", date:'13/06/21', location: 'Victoria Square', status: 'Negative'},
+      { name: "Antony Cameron", date:'13/06/21', location: 'Target Unley', status: 'Negative'},
+      { name: "Antony Cameron", date:'13/06/21', location: 'Adelaide Airport', status: 'Negative'},
+      { name: "Antony Cameron", date:'13/06/21', location: 'Woolworths Walkerville', status: 'Negative'},
+      { name: "Antony Cameron", date:'13/06/21', location: 'Adelaide Oval', status: 'Negative'}
     ]
   },
-  computed: {
-      "columns": function columns() {
-        if (this.rows.length == 0) {
-          return [];
-        }
-        return Object.keys(this.rows[0]);
-      }
-    }
 });
-
-  // Vue.component('usercheckin', {
-  //   template: '\
-  //     <table>\
-  //     <thead>\
-  //     <tr>\
-  //       <th v-for="col in columns">{{col}}</th>\
-  //     </tr>\
-  //     <thead>\
-  //           <tr v-for="row in rows">\
-  //                       <td v-for="col in columns">{{row[col]}}</td>\
-  //                   </tr>\
-  //               </tbody>\
-  //           </table>\
-  //   ',
-  //   props: ['Venue']
-  // })
 
 var userCheckinHistory = new Vue({
   el: '#userCheckinHistory',
   data: {
     newcheckin: '',
     rows: [
-      { Venue: "Yattla Labour Prison", Date:'27/8/2020', Time: '9:55 AM', Hotspot: 'PPositive'},
-      { Venue: "Adelaide Magistrates Court", Date:'27/8/2020', Time: '4:55 AM', Hotspot: 'Negative'},
-      { Venue: "SAPOL Edinborough North", Date:'20/8/2020', Time: '2:35 AM', Hotspot: 'Negative'},
-      { Venue: "Commbank Elizabeth", Date:'20/8/2020', Time: '1:55 AM', Hotspot: 'Negative'},
-      { Venue: "Masks and CostumesRUs", Date:'20/8/2020', Time: '12:25 AM', Hotspot: 'Negative'},
-      { Venue: "Adelaide Guns'n'Ammo", Date:'20/8/2020', Time: '11:55 AM', Hotspot: 'Negative'},
-      { Venue: "Bunnings Warehouse", Date:'20/8/2020', Time: '19:55 AM', Hotspot: 'Negative'}
+      { Venue: "Bunnings Kent Town", Date:'13/06/21', Time: '12:55 PM', Hotspot: 'Negative'},
+      { Venue: "Victoria Square", Date:'13/06/21', Time: '12:58 PM', Hotspot: 'Negative'},
+      { Venue: "Target Unley", Date:'13/06/21', Time: '12:49 PM', Hotspot: 'Negative'},
+      { Venue: "Adelaide Airport", Date:'13/06/21', Time: '12:32 PM', Hotspot: 'Negative'},
+      { Venue: "Woolworths Walkerville", Date:'13/06/21', Time: '02:32 PM', Hotspot: 'Negative'},
+      { Venue: "Adelaide Oval", Date:'13/06/21', Time: '01:05 PM', Hotspot: 'Negative'},
     ],
-    nextcheckin: 8
   },
       methods: {
         addcheckin: function () {
@@ -158,118 +100,43 @@ var userCheckinHistory = new Vue({
             Date: new Date(),
             Time: document.getElementById('postcode').value,
 
-          })
-          this.newTodoText = ''
+          });
         }
+
       },
-    computed: {
-      "columns": function columns() {
-        if (this.rows.length == 0) {
-          return [];
-        }
-        return Object.keys(this.rows[0]);
-      }
-    }
   });
-
-
-  // Vue.component('isvenue', {
-  //   template: '\
-  //     <table>\
-  //     <thead>\
-  //     <tr>\
-  //       <th v-for="col in columns">{{col}}</th>\
-  //     </tr>\
-  //     <thead>\
-  //           <tr v-for="row in rows">\
-  //                       <td v-for="col in columns">{{row[col]}}</td>\
-  //                   </tr>\
-  //               </tbody>\
-  //           </table>\
-  //   ',
-  //   props: ['Venue']
-  // })
-
 
 var venues = new Vue({
-  el: '#vue_venue',
-  data: {
-    newVenue: '',
-    //rowData: [],
-    rows: [
-      { name: "McDonalds", address: "20 Hindley St Adelaide 5000", status: "Safe"},
-      { name: "KFC", address: "15 Pulteney St Adelaide 5000", status: "Hotspot"},
-      { name: "Woolworths", address: "25 Walkerville Terrace Walkerville 5081", status: "Hotspot"},
-      { name: "Pasta Deli", address: "148 The Parade Norwood 5067", status: "Safe"}
-    ]
-  },
-       methods: {
+    el: '#vue_venue',
+    data: {
+        Name: 'Adelaide Uni',
+        No: 10,
+        Lat: 0,
+        Lon: 0,
+        rows: [
+      { Name: "Adelaide Uni", Address: '123 Main St', Status: 'Hotspot'}]
+    },
+    methods: {
         addvenue: function () {
             this.rows.push({
-            name: document.getElementById('addvenuename').value,
-            address: document.getElementById('addvenueaddress').value,
-            status: document.getElementById('postcode').value,
-          })
-          this.newVenue = ''
+            Name: document.getElementById('addvenuename').value,
+            Address: document.getElementById('addvenueaddress').value,
+            Status: "Non-Hotspot"
+          });
+        },
+        get_venue: function () {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = function () {
+            };
+                req.open('GET', '/get_venue', true);
+                req.send();
+        },
+        add_venue: function () {
+            let req = new XMLHttpRequest();
+
+            req.open('POST', '/add_venue', true);
+            req.setRequestHeader('Content-type', 'application/json');
+            req.send(JSON.stringify({ venueName1: this.Name, contactNo1: this.No, lat1: this.Lat, lon1: this.Lon }));
         }
-      },
-    computed: {
-      "columns": function columns() {
-        if (this.rows.length == 0) {
-          return [];
-        }
-        return Object.keys(this.rows[0]);
-      }
     }
-  });
-
-
-// function display_new_venue() {
-
-//       var app = new Vue({
-//         el: '#app',
-//         data: {
-//           mail:'',
-//           date:'',
-//           adress:'',
-//           company:'',
-//           fliers:'',
-//           rowData:[] //the declared array
-//         },
-//         methods:{
-//           addItem(){
-//             var my_object = {
-//               mail:this.mail,
-//               date:this.date,
-//               adress:this.adress,
-//               company: this.company,
-//               fliers: this.fliers
-//             };
-//             this.rowData.push(my_object);
-
-//             this.mail = '';
-//             this.date = '';
-//             this.adress = '';
-//             this.company = '';
-//             this.fliers = '';
-//           }
-//         }
-//       });
-// }
-
-// function display_new_venue() {
-
-
-//       methods: {
-//         addItem() {
-//           var my_object = {
-//             name: document.getElementById('inputVenuename').value,
-//             address1: document.getElementById('inputAddress').value,
-//             address2: document.getElementById('inputAddress2').value,
-//             suburb: document.getElementById('inputCity').value,
-//             postcode: document.getElementById('inputPostcode').value
-//           };
-//           this.rowData.push(my_object);
-//         }
-//       }
-// });
+});
